@@ -59,7 +59,7 @@ stargazer(ols_resss, type = "latex", out = "OUTPUT/table_RE.tex")
 ### Question c ###
 ##################
 
-ols_fe <- plm(lwage ~ union + exper + expersq + married + educ + black + hisp + factor(year), data = wagepan, model = "within", index = c("nr","year"))
+ols_fe <- plm(lwage ~ union + expersq + married + educ + black + hisp + factor(year) + exper, data = wagepan, model = "within", index = c("nr","year"))
 ols_fesss <- coeftest(ols_fe, vcov = vcovHC(ols_fe,type="sss"))
 stargazer(ols_fesss, type = "latex", out = "OUTPUT/table_FE.tex")
 
@@ -70,10 +70,11 @@ stargazer(ols_fesss, type = "latex", out = "OUTPUT/table_FE.tex")
 ### Question d ###
 ##################
 
-# ça a pas drop exper, par contre ça à drop le reste. 
 # In the case of the variable exper being dropped from the fixed effect regression, even though it is time-varying, 
 #it suggests that it is perfectly collinear with the fixed effects, which are usually included to capture individual-specific effects. 
 #This could happen if the variable exper varies only within individuals over time, but not across individuals.
+# In our case, it is because exper and year1987 are perfectly colinear (so its either R drops 1987 or exper, 
+#depending on the positioning of exper and factor(year) in the regression).
 
 
 
@@ -133,3 +134,8 @@ stargazer(iv_2_sss, type = "latex", out = "OUTPUT/table_IV2.tex")
 # point estimate : rien  // sd : rien 
 
 # C PAS BON ALED CA DROP TT MÊME DIFF_UNION LUI MÊME --> IL FAUT MODIFIER
+
+
+
+
+
